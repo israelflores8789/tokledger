@@ -1,20 +1,72 @@
-[project]
-name = "tokledger"
-version = "0.1.0"
-description = "Persistent tokscale statistics no matter where your agents live"
-readme = "README.md"
-authors = [
-    { name = "Israel Flores-Arbolay", email = "israelflores8789@gmail.com" }
-]
-requires-python = ">=3.11"
-dependencies = []
-dynamic = ["version"]
-
-[project.scripts]
-tokledger = "tokledger:main"
+#:schema https://json.schemastore.org/pyproject.json
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
-[tool]
+[project]
+name = "tokledger"
+dynamic = ["version"]
+description = "Persistent analytics over tokscale's stateless JSON exports"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = [
+    "duckdb>=1.0",
+    "pandas>=2.0",
+    "pydantic>=2.5",
+    "typer>=0.12",
+    "rich>=13.0",
+    "plotext>=5.2",
+]
+
+[project.optional-dependencies]
+polars = ["polars>=1.0"]
+
+[project.scripts]
+tokledger = "tokledger.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.8",
+    "pyrefly>=0.20",
+]
+
+[tool.hatch.version]
+source = "vcs"
+tag-pattern = '^v(?P<version>\d+\.\d+\.\d+.*)$'
+fallback-version = "0.1.0"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tokledger"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "D", "ANN"]
+ignore = [
+    "D100",    # missing docstring in public module (SQL-only modules)
+    "D104",    # missing docstring in public package (__init__.py)
+    "D203",    # one-blank-line-before-class (conflicts with D211)
+    "D212",    # multi-line-summary-first-line (conflicts with D213)
+    "ANN401",  # Any allowed for raw JSON payloads
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pyrefly]
+preset = "strict"
+project-includes = ["src", "tests"]
+min-severity = "warn"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+
+[tool.coverage.run]
+source = ["src/tokledger"]
