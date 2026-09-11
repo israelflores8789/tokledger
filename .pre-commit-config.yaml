@@ -1,4 +1,4 @@
-exclude: '^tests/fixtures/*\.json$'
+exclude: '^tests/fixtures/.*\.json$'
 
 repos:
 - repo: https://github.com/crate-ci/typos

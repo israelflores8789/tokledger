@@ -32,6 +32,7 @@ dev = [
     "pytest-cov>=5.0",
     "ruff>=0.8",
     "pyrefly>=0.20",
+    "twine>=7.0.0",
 ]
 
 [tool.hatch.version]
@@ -62,6 +63,7 @@ convention = "google"
 [tool.pyrefly]
 preset = "strict"
 project-includes = ["src", "tests"]
+search-path = ["."]
 min-severity = "warn"
 
 [tool.pytest.ini_options]
