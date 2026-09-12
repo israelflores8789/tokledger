@@ -19,7 +19,7 @@ repo="$(gh repo view --json nameWithOwner --jq .nameWithOwner)"
 for file in "$script_dir"/*.json; do
   name="$(jq --raw-output .name "$file")"
   id="$(gh api "repos/$repo/rulesets?per_page=100" --paginate \
-    --jq --arg name "$name" '[.[] | select(.name == $name) | .id] | .[0] // empty')"
+  | jq -r --arg name "$name" '[.[] | select(.name == $name) | .id] | .[0] // empty')"
 
   body="$(jq 'del(.source_type)' "$file")"   # drop if API 422s without this
   if [[ -n "$id" ]]; then
