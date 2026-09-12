@@ -36,8 +36,8 @@ publish-test: check-dist
     uv publish \
         --publish-url https://test.pypi.org/legacy/
 
-publish: check-dist
-    uv publish
+publish *args: check-dist
+    uv publish {{args}}
 
 
 # ---- hygiene ----
