@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: AGPL-3.0-only
 
 """merge.py — Transactional persistence of normalized tokscale payloads into DuckDB.
 
@@ -18,12 +18,11 @@ from typing import Any
 from uuid import UUID
 
 import duckdb
-
-from tokledger.parsers.graph import GraphPayload
-from tokledger.parsers.models import ModelsPayload, ModelStatsRow
-from tokledger.parsers.pricing import PricingRow
-from tokledger.parsers.report import SessionRow, make_session_label
-from tokledger.reconcile import ReconciliationResult
+from usagebassoon.parsers.graph import GraphPayload
+from usagebassoon.parsers.models import ModelsPayload, ModelStatsRow
+from usagebassoon.parsers.pricing import PricingRow
+from usagebassoon.parsers.report import SessionRow, make_session_label
+from usagebassoon.reconcile import ReconciliationResult
 
 
 @dataclass(frozen=True, slots=True)

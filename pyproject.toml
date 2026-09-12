@@ -1,16 +1,18 @@
 #:schema https://json.schemastore.org/pyproject.json
+# SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
+# SPDX-License-Identifier: AGPL-3.0-only
 
 [build-system]
 requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "tokledger"
+name = "usagebassoon"
 dynamic = ["version"]
 description = "Persistent analytics over tokscale's stateless JSON exports"
 readme = "README.md"
 requires-python = ">=3.11"
-license = "MIT"
+license = "AGPL-3.0-only"
 dependencies = [
     "duckdb>=1.0",
     "pandas>=2.0",
@@ -24,7 +26,7 @@ dependencies = [
 polars = ["polars>=1.0"]
 
 [project.scripts]
-tokledger = "tokledger.cli:app"
+usagebassoon = "usagebassoon.cli:app"
 
 [dependency-groups]
 dev = [
@@ -41,7 +43,7 @@ tag-pattern = '^v(?P<version>\d+\.\d+\.\d+.*)$'
 fallback-version = "0.1.0"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/tokledger"]
+packages = ["src/usagebassoon"]
 
 [tool.ruff]
 line-length = 100
@@ -71,4 +73,4 @@ testpaths = ["tests"]
 addopts = "-q --strict-markers"
 
 [tool.coverage.run]
-source = ["src/tokledger"]
+source = ["src/usagebassoon"]

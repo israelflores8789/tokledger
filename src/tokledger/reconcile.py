@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: AGPL-3.0-only
 
 """reconcile.py — Cross-payload consistency checks for tokscale collection runs.
 
@@ -14,9 +14,9 @@ from dataclasses import dataclass
 from decimal import Decimal
 from math import isclose
 
-from tokledger.parsers.graph import GraphPayload
-from tokledger.parsers.models import ModelsPayload
-from tokledger.parsers.report import SessionRow
+from usagebassoon.parsers.graph import GraphPayload
+from usagebassoon.parsers.models import ModelsPayload
+from usagebassoon.parsers.report import SessionRow
 
 TOKEN_BUCKETS = ("input", "output", "cache_read", "cache_write", "reasoning")
 

@@ -1,0 +1,10 @@
+#:schema = "https://raw.githubusercontent.com/fsfe/reuse-tool/main/reuse-schema.json"
+# SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
+# SPDX-License-Identifier: AGPL-3.0-only
+version = 1
+
+[[annotations]]
+path = ["uv.lock", ".vscode/**", "**/*.json", ".gitignore", ".python-version"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Israel Flores-Arbolay"
+SPDX-License-Identifier = "AGPL-3.0-only"

@@ -1,5 +1,5 @@
 -- SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
--- SPDX-License-Identifier: MIT
+-- SPDX-License-Identifier: AGPL-3.0-only
 
 -- Append-only audit trail of every collection run.
 CREATE TABLE IF NOT EXISTS ingest_runs (

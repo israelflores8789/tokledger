@@ -1,4 +1,7 @@
-# tokledger justfile recipes
+# SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# UsageBassoon justfile recipes
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
@@ -52,8 +55,8 @@ test *args:
     {{pytest}} -v -s {{args}}
 
 # Run tests with coverage reporting
-coverage:
-    {{pytest}} --cov=src --cov-report=term-missing
+coverage *args:
+    {{pytest}} --cov=src --cov-report=term-missing {{args}}
 
 lint:
     uv run ruff check {{src_dir}} {{test_dir}}
@@ -68,6 +71,16 @@ clean:
 
 check-justfile:
     just --fmt --check
+
+check-license:
+    #!/usr/bin/env bash
+    uvx --from 'reuse[charset-normalizer]' reuse lint
+    if [[ ! -f LICENSES/AGPL-3.0-only.txt ]]; then
+        echo "LICENSES/AGPL-3.0-only.txt missing — downloading..."
+        uvx --from 'reuse[charset-normalizer]' reuse download AGPL-3.0-only
+    else
+        echo "LICENSES/AGPL-3.0-only.txt present."
+    fi
 
 
 # ---- full CI gate ----
@@ -92,7 +105,7 @@ release:
 # --- tokscale canonical commands ---
 
 # Canonical tokscale commands for raw JSON data input.
-# These commands are the raw interface for tokledger.
+# These commands are the raw interface for usagebassoon.
 # Use the versioned golden JSON fixtures in tests/fixtures/ for testing.
 # Updating the golden fixtures requires a dedicated PR.
 

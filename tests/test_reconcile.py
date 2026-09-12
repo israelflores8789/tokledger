@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: AGPL-3.0-only
 
 """test_reconcile.py — Reconciliation tests over a fixture set known to be partially stale.
 
@@ -12,6 +12,10 @@ from __future__ import annotations
 
 from collections import Counter
 
+from usagebassoon.parsers.graph import GraphPayload
+from usagebassoon.parsers.models import ModelsPayload
+from usagebassoon.reconcile import ReconciliationResult, reconcile_models_graph
+
 from tests.conftest import (
     EXPECTED_TOTAL_CACHE_READ,
     EXPECTED_TOTAL_CACHE_WRITE,
@@ -20,9 +24,6 @@ from tests.conftest import (
     EXPECTED_TOTAL_MESSAGES,
     EXPECTED_TOTAL_OUTPUT,
 )
-from tokledger.parsers.graph import GraphPayload
-from tokledger.parsers.models import ModelsPayload
-from tokledger.reconcile import ReconciliationResult, reconcile_models_graph
 
 
 def test_reconcile_report_drift_is_exactly_ten(

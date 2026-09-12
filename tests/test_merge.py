@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: AGPL-3.0-only
 
 """test_merge.py — Merge-level golden-file tests over the real DDL + fixture set."""
 
@@ -10,6 +10,7 @@ from uuid import uuid4
 
 import duckdb
 import pytest
+from usagebassoon.merge import CollectionBundle, MergeError, merge_collection
 
 from tests.conftest import (
     EXPECTED_DAILY_ROWS,
@@ -18,7 +19,6 @@ from tests.conftest import (
     EXPECTED_REPORT_ROWS,
     EXPECTED_TOKSCALE_VERSION,
 )
-from tokledger.merge import CollectionBundle, MergeError, merge_collection
 
 
 def test_merge_populates_all_tables(

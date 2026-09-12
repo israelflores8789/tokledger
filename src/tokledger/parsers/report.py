@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: AGPL-3.0-only
 
 """report.py — Parser for `tokscale report --json --no-summarize`.
 
@@ -120,6 +120,7 @@ def make_session_label(row: SessionRow) -> str:
     day = row.created_at.date().isoformat() if row.created_at else "unknown-date"
     sid = row.session_id
     # parts: rollout, YYYY, MM, DDTHH, MI, SS, then uuid groups
-    short = (sid.split("-")[6] if sid.startswith("rollout-")
-             and len(sid.split("-")) > 6 else sid[:12])
+    short = (
+        sid.split("-")[6] if sid.startswith("rollout-") and len(sid.split("-")) > 6 else sid[:12]
+    )
     return f"{label} · {day} · {short}"

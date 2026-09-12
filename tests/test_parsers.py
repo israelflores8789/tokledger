@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: AGPL-3.0-only
 
 """test_parsers.py — Parser-level golden-file tests (tokscale 4.15.1 fixture set)."""
 
@@ -9,6 +9,10 @@ from datetime import UTC, date, datetime
 from typing import Any
 
 import pytest
+from usagebassoon.parsers.graph import GraphPayload, parse_graph
+from usagebassoon.parsers.models import ModelsPayload, parse_models
+from usagebassoon.parsers.pricing import PricingRow
+from usagebassoon.parsers.report import SessionRow, make_session_label, parse_report
 
 from tests.conftest import (
     EXPECTED_DAILY_ROWS,
@@ -17,10 +21,6 @@ from tests.conftest import (
     EXPECTED_REPORT_ROWS,
     EXPECTED_TOKSCALE_VERSION,
 )
-from tokledger.parsers.graph import GraphPayload, parse_graph
-from tokledger.parsers.models import ModelsPayload, parse_models
-from tokledger.parsers.pricing import PricingRow
-from tokledger.parsers.report import SessionRow, make_session_label, parse_report
 
 
 def test_models_shape(models_payload: ModelsPayload) -> None:

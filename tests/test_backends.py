@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: AGPL-3.0-only
 
 """test_backends.py — Backend tests: local DuckDB round-trips; MotherDuck validation only.
 
@@ -12,10 +12,9 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
-from tokledger.backends.base import DatabaseBackend
-from tokledger.backends.duckdb_local import LocalDuckDBBackend
-from tokledger.backends.motherduck import MotherDuckBackend
+from usagebassoon.backends.base import DatabaseBackend
+from usagebassoon.backends.duckdb_local import LocalDuckDBBackend
+from usagebassoon.backends.motherduck import MotherDuckBackend
 
 
 def test_local_backend_creates_parents(tmp_path: Path) -> None:
@@ -41,14 +40,14 @@ def test_local_backend_read_only_round_trip(tmp_path: Path) -> None:
 
 def test_local_backend_expands_user() -> None:
     """Assert tilde expansion on the database path."""
-    backend = LocalDuckDBBackend("~/tokledger-test.duckdb")
+    backend = LocalDuckDBBackend("~/usagebassoon-test.duckdb")
     assert "~" not in str(backend.database)
 
 
 def test_motherduck_rejects_prefixed_name() -> None:
     """Assert md:-prefixed database names are rejected."""
     with pytest.raises(ValueError, match="database name"):
-        MotherDuckBackend("md:tokledger")
+        MotherDuckBackend("md:usagebassoon")
 
 
 def test_motherduck_rejects_empty_name() -> None:
@@ -61,7 +60,7 @@ def test_motherduck_requires_token(monkeypatch: pytest.MonkeyPatch) -> None:
     """Assert a missing token raises before any connection attempt."""
     monkeypatch.delenv("MOTHERDUCK_TOKEN", raising=False)
     with pytest.raises(RuntimeError, match="MOTHERDUCK_TOKEN"):
-        with MotherDuckBackend("tokledger").connect():
+        with MotherDuckBackend("usagebassoon").connect():
             pass
 
 
@@ -73,4 +72,4 @@ def test_backends_satisfy_protocol(tmp_path: Path) -> None:
         assert callable(backend.connect)
 
     accept(LocalDuckDBBackend(tmp_path / "protocol-check.duckdb"))
-    accept(MotherDuckBackend("tokledger", token="placeholder"))
+    accept(MotherDuckBackend("usagebassoon", token="placeholder"))

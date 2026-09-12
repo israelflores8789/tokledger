@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Israel Flores-Arbolay
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: AGPL-3.0-only
 
-"""conftest.py — Shared fixtures for the tokledger test suite.
+"""conftest.py — Shared fixtures for the usagebassoon test suite.
 
 Golden payloads were captured from tokscale 4.15.1 on 2026-09-10 and
 sanitized. See Appendix A of the design doc for the invariants asserted
@@ -19,13 +19,12 @@ from uuid import uuid4
 
 import duckdb
 import pytest
-
-from tokledger.merge import CollectionBundle
-from tokledger.parsers.graph import GraphPayload, parse_graph
-from tokledger.parsers.models import ModelsPayload, parse_models
-from tokledger.parsers.pricing import PricingRow, parse_pricing
-from tokledger.parsers.report import SessionRow, parse_report
-from tokledger.reconcile import ReconciliationResult, reconcile_all
+from usagebassoon.merge import CollectionBundle
+from usagebassoon.parsers.graph import GraphPayload, parse_graph
+from usagebassoon.parsers.models import ModelsPayload, parse_models
+from usagebassoon.parsers.pricing import PricingRow, parse_pricing
+from usagebassoon.parsers.report import SessionRow, parse_report
+from usagebassoon.reconcile import ReconciliationResult, reconcile_all
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -116,7 +115,7 @@ def recon_result(
 @pytest.fixture
 def connection() -> Iterator[duckdb.DuckDBPyConnection]:
     """Yield an in-memory DuckDB connection with the full DDL applied."""
-    ddl = Path(__file__).parents[1] / "src" / "tokledger" / "sql" / "ddl.sql"
+    ddl = Path(__file__).parents[1] / "src" / "usagebassoon" / "sql" / "ddl.sql"
     con = duckdb.connect(":memory:")
     con.execute(ddl.read_text())
     yield con
@@ -145,7 +144,11 @@ def collection_bundle(
         report_rows=report_rows,
         graph=graph_payload,
         pricing_by_model={"gemini-3.8-flash": pricing_row},
-        raw_exports={"models": models_raw, "report": report_raw,
-                     "graph": graph_raw, "pricing": pricing_raw},
+        raw_exports={
+            "models": models_raw,
+            "report": report_raw,
+            "graph": graph_raw,
+            "pricing": pricing_raw,
+        },
         reconciliation=recon_result,
     )

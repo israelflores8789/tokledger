@@ -1233,7 +1233,7 @@ wheels = [
 ]
 
 [[package]]
-name = "tokledger"
+name = "usagebassoon"
 source = { editable = "." }
 dependencies = [
     { name = "duckdb" },
