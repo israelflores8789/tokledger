@@ -14,23 +14,27 @@ A Python CLI and library (pipx-installable, import usagebassoon) that persists `
 usagebassoon/
 ├── pyproject.toml            # hatchling; pipx-installable; Python >= 3.11
 ├── src/usagebassoon/
-│   ├── collector.py          # tokscale subprocess + retry
 │   ├── cli/                  # typer app; one module per CLI command
 │   ├── parsers/              # one module per payload kind
 │   │   ├── models.py         # per session×model rows → session_model_stats
 │   │   ├── report.py         # session metadata       → sessions (no LLM summary fields)
 │   │   ├── graph.py          # daily contributions    → daily_stats/daily_activity/run_metrics
 │   │   └── pricing.py        # rates + resolution     → pricing_snapshots + row stamps
+│   ├── contracts/            # JSON schema contracts per payload kind
 │   ├── backends/
 │   │   ├── base.py           # StorageBackend protocol
 │   │   ├── duckdb_local.py
 │   │   ├── motherduck.py
 │   │   └── bigquery.py
-│   ├── merge.py              # staging + transactional merge + rebuild + session_label
+│   ├── collector.py          # tokscale subprocess + retry
+│   ├── arrow_port.py         # normalizer: models → Arrow, derived columns
+│   ├── drift.py              # schema_drift detection + reporting
+│   ├── snapshots.py          # local/GCS rotating snapshots + restore
+│   ├── merge.py              # staging + delta append + current-view logic + rebuild + session_label
 │   ├── reconcile.py          # cross-payload consistency checks
 │   ├── curation.py           # tags + notes
-│   ├── sanitize.py           # export-time pseudonymization (--sanitize)
-│   ├── report_term.py        # rich tables + plotext charts (+ --save/--sanitize)
+│   ├── obfuscate.py          # export-time pseudonymization
+│   ├── report_term.py        # rich tables + plotext charts
 │   ├── api.py                # usagebassoon.query/connect (pandas default, polars opt-in)
 │   ├── sql/                  # ddl + views, loaded as package data
 │   │   ├── duckdb/{ddl.sql, views.sql}    # also serves motherduck
@@ -38,7 +42,7 @@ usagebassoon/
 ├── tests/
 │   ├── fixtures/             # sanitized golden captures: models, report, graph, pricing
 │   └── test_*.py             # incl. fixture-derived invariants
-└── .github/workflows/        # ci (ruff, pyrefly, pytest), release to PyPI
+└── .github/workflows/        # ci (ruff, pyrefly, pytest), dialect-parity, release to PyPI
 ```
 
 ## Architecture
