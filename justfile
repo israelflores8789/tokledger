@@ -11,7 +11,7 @@ src_dir := "src"
 test_dir := "tests"
 
 install-dev:
-    @echo "Installing development dependencies..."
+    @echo "Installing core + development dependencies..."
     @uv sync --all-groups
 
 install-motherduck:
